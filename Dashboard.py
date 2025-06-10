@@ -1,25 +1,29 @@
-# dashboard.py
 import streamlit as st
 
+# Konfigurasi awal tampilan dashboard
 st.set_page_config(
     page_title="Dashboard Prediksi Kelulusan Mahasiswa",
     layout="wide",
     page_icon="🎓"
 )
 
+# Judul utama
 st.title("🎓 Dashboard Prediksi Kelulusan Mahasiswa")
-st.markdown("""
-Selamat datang!  
-Dashboard ini memprediksi apakah mahasiswa akan **lulus cepat** berdasarkan IPK, pelatihan, prestasi, dan kegiatan organisasi.
 
+# Deskripsi singkat
+st.markdown("""
+Selamat datang di dashboard prediksi kelulusan mahasiswa!  
 Gunakan sidebar untuk berpindah antar halaman:
+
 - **EDA**: Eksplorasi Data
 - **Modeling**: Pelatihan Model
 - **Prediksi**: Input data dan lihat hasil prediksi
 """)
 
+# Sidebar untuk navigasi
 menu = st.sidebar.radio("📁 Menu", ["EDA", "Modeling", "Prediksi"])
 
+# Routing halaman
 if menu == "EDA":
     import pages.EDA as eda
     eda.run()
