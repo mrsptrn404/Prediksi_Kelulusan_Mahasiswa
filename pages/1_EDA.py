@@ -17,9 +17,6 @@ def run():
     st.subheader("🎯 Distribusi Target (Lulus Cepat)")
     st.bar_chart(df["Lulus Cepat"].value_counts())
 
-    st.subheader("📊 Korelasi antara fitur numerik")
-    st.write(df.corr(numeric_only=True))
-
     st.subheader("📌 Visualisasi Histogram IPK")
     fig, ax = plt.subplots()
     sns.histplot(df["IPK"], kde=True, ax=ax)
