@@ -1,29 +1,33 @@
+# dashboard.py
 import streamlit as st
 
-# Konfigurasi tampilan
 st.set_page_config(
-    page_title="Prediksi Kelulusan Mahasiswa",
+    page_title="Dashboard Prediksi Kelulusan Mahasiswa",
     layout="wide",
     page_icon="🎓"
 )
 
 st.title("🎓 Dashboard Prediksi Kelulusan Mahasiswa")
-st.markdown("Gunakan sidebar di kiri untuk navigasi ke halaman EDA, pelatihan model, atau melakukan prediksi.")
+st.markdown("""
+Selamat datang!  
+Dashboard ini memprediksi apakah mahasiswa akan **lulus cepat** berdasarkan IPK, pelatihan, prestasi, dan kegiatan organisasi.
 
-# Sidebar navigasi
-menu = st.sidebar.radio(
-    "Navigasi Halaman",
-    ("1. EDA", "2. Train Model", "3. Prediksi")
-)
+Gunakan sidebar untuk berpindah antar halaman:
+- **EDA**: Eksplorasi Data
+- **Modeling**: Pelatihan Model
+- **Prediksi**: Input data dan lihat hasil prediksi
+""")
 
-if menu == "1. EDA":
+menu = st.sidebar.radio("📁 Menu", ["EDA", "Modeling", "Prediksi"])
+
+if menu == "EDA":
     import pages.EDA as eda
     eda.run()
 
-elif menu == "2. Train Model":
+elif menu == "Modeling":
     import pages.Modeling as modeling
     modeling.run()
 
-elif menu == "3. Prediksi":
+elif menu == "Prediksi":
     import pages.Predict as predict
     predict.run()
