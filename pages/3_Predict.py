@@ -1,28 +1,33 @@
-import streamlit as st
-import numpy as np
-import pickle
+def run():
+    import streamlit as st
+    import numpy as np
+    import pandas as pd
+    from sklearn.naive_bayes import GaussianNB
+    from sklearn.neighbors import KNeighborsClassifier
 
-st.title("3. Form Prediksi Lulus Cepat")
-st.write("Isi input berikut lalu pilih model:")
+    st.header("🧩 Prediksi Lulus Cepat atau Tidak")
 
-ipk = st.sidebar.slider("IPK", 0.0, 4.0, 3.0, 0.01)
-pelatihan = st.sidebar.number_input("Pelatihan Pengetahuan (0–10)", 0, 10, 5)
-prestasi = st.sidebar.number_input("Prestasi (0–50)", 0, 50, 10)
-organisasi = st.sidebar.number_input("Kegiatan Organisasi (0–10)", 0, 10, 2)
+    ipk = st.number_input("IPK", min_value=0.0, max_value=4.0, step=0.01)
+    pelatihan = st.slider("Pelatihan Pengetahuan", 0, 10, 0)
+    prestasi = st.slider("Prestasi", 0, 50, 0)
+    organisasi = st.slider("Kegiatan Organisasi", 0, 10, 0)
 
-model_choice = st.sidebar.selectbox("Pilih Model", ["Naive Bayes", "KNN"])
+    model_choice = st.selectbox("Pilih Model", ["Naive Bayes", "KNN"])
 
-input_data = np.array([[ipk, pelatihan, prestasi, organisasi]])
+    df = pd.read_csv("data/lulus.csv")
+    X = df[['IPK', 'Pelatihan Pengetahuan', 'Prestasi', 'Kegiatan Organisasi']]
+    y = df['Lulus Cepat'].map({'Yes': 1, 'No': 0})
 
-# Load model
-:contentReference[oaicite:31]{index=31}
-    :contentReference[oaicite:32]{index=32}
-else:
-    :contentReference[oaicite:33]{index=33}
+    if model_choice == "Naive Bayes":
+        model = GaussianNB()
+    else:
+        model = KNeighborsClassifier(n_neighbors=3)
 
-:contentReference[oaicite:34]{index=34}
-    :contentReference[oaicite:35]{index=35}
-    :contentReference[oaicite:36]{index=36}
-    :contentReference[oaicite:37]{index=37}
-    :contentReference[oaicite:38]{index=38}
-    :contentReference[oaicite:39]{index=39}
+    model.fit(X, y)
+
+    input_data = np.array([[ipk, pelatihan, prestasi, organisasi]])
+    pred = model.predict(input_data)[0]
+    pred_label = "Yes (Lulus Cepat)" if pred == 1 else "No (Tidak Lulus Cepat)"
+
+    if st.button("Prediksi"):
+        st.success(f"Hasil Prediksi: {pred_label}")
