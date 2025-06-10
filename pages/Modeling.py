@@ -4,26 +4,32 @@ def run():
     from sklearn.model_selection import train_test_split
     from sklearn.naive_bayes import GaussianNB
     from sklearn.neighbors import KNeighborsClassifier
-    from sklearn.metrics import classification_report
+    from sklearn.metrics import accuracy_score
 
-    st.subheader("🛠️ Modeling (Train Naive Bayes & KNN)")
+    st.title("🔧 Modeling - Pelatihan Model")
 
-    df = pd.read_csv("data/lulus.csv")
+    df = pd.read_csv("lulus.csv")
+    df.columns = df.columns.str.strip()  # Hapus spasi
+
+    st.write("Kolom DataFrame:", df.columns.tolist())  # Debugging
+
     X = df[['IPK', 'Pelatihan Pengetahuan', 'Prestasi', 'Kegiatan Organisasi']]
-    y = df['Lulus Cepat'].map({'Yes': 1, 'No': 0})
+    y = df['Lulus Cepat']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model_nb = GaussianNB()
-    model_nb.fit(X_train, y_train)
-    y_pred_nb = model_nb.predict(X_test)
+    # Naive Bayes
+    nb = GaussianNB()
+    nb.fit(X_train, y_train)
+    y_pred_nb = nb.predict(X_test)
+    acc_nb = accuracy_score(y_test, y_pred_nb)
 
-    model_knn = KNeighborsClassifier(n_neighbors=3)
-    model_knn.fit(X_train, y_train)
-    y_pred_knn = model_knn.predict(X_test)
+    # KNN
+    knn = KNeighborsClassifier(n_neighbors=3)
+    knn.fit(X_train, y_train)
+    y_pred_knn = knn.predict(X_test)
+    acc_knn = accuracy_score(y_test, y_pred_knn)
 
-    st.markdown("### 📘 Naive Bayes")
-    st.text(classification_report(y_test, y_pred_nb))
-
-    st.markdown("### 📗 KNN (k=3)")
-    st.text(classification_report(y_test, y_pred_knn))
+    st.subheader("Akurasi Model:")
+    st.write(f"Naive Bayes: {acc_nb:.2f}")
+    st.write(f"KNN: {acc_knn:.2f}")
