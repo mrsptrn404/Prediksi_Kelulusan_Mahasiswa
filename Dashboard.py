@@ -25,13 +25,13 @@ menu = st.sidebar.radio("📁 Menu", ["EDA", "Modeling", "Prediksi"])
 
 # Routing halaman
 if menu == "EDA":
-    import pages.EDA as eda
+    import pages.1_EDA as eda
     eda.run()
 
 elif menu == "Modeling":
-    import pages.Modeling as modeling
+    import pages.2_Modeling as modeling
     modeling.run()
 
 elif menu == "Prediksi":
-    import pages.Predict as predict
+    import pages.3_Predict as predict
     predict.run()
