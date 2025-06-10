@@ -6,7 +6,7 @@ def run():
     from sklearn.neighbors import KNeighborsClassifier
     from sklearn.metrics import classification_report
 
-    st.header("🛠️ Pelatihan Model (Naive Bayes & KNN)")
+    st.subheader("🛠️ Modeling (Train Naive Bayes & KNN)")
 
     df = pd.read_csv("data/lulus.csv")
     X = df[['IPK', 'Pelatihan Pengetahuan', 'Prestasi', 'Kegiatan Organisasi']]
@@ -14,16 +14,16 @@ def run():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    st.subheader("📘 Model: Naive Bayes")
-    nb = GaussianNB()
-    nb.fit(X_train, y_train)
-    y_pred_nb = nb.predict(X_test)
-    st.text("Hasil Evaluasi Naive Bayes:")
+    model_nb = GaussianNB()
+    model_nb.fit(X_train, y_train)
+    y_pred_nb = model_nb.predict(X_test)
+
+    model_knn = KNeighborsClassifier(n_neighbors=3)
+    model_knn.fit(X_train, y_train)
+    y_pred_knn = model_knn.predict(X_test)
+
+    st.markdown("### 📘 Naive Bayes")
     st.text(classification_report(y_test, y_pred_nb))
 
-    st.subheader("📗 Model: KNN (k=3)")
-    knn = KNeighborsClassifier(n_neighbors=3)
-    knn.fit(X_train, y_train)
-    y_pred_knn = knn.predict(X_test)
-    st.text("Hasil Evaluasi KNN:")
+    st.markdown("### 📗 KNN (k=3)")
     st.text(classification_report(y_test, y_pred_knn))
